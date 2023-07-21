@@ -21,7 +21,7 @@ def register_user():
     unhashed_password = request.json["password"]
     user_exists = User.query.filter_by(email=email).first()
     if user_exists:
-        return jsonify({"message": "cant have shit in sammamish..."})
+        return jsonify({"message": "email already exists in system"}), 409
     new_user = User(
         email=email,
         password=bcrypt.generate_password_hash(unhashed_password).decode("utf8"),
@@ -29,3 +29,17 @@ def register_user():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({"email": new_user.email, "id": new_user.id})
+
+
+@app.post("/auth")
+def auth_user():
+    email = request.json["email"]
+    unhashed_password = request.json["password"]
+    user = User.query.filter_by(email=email).first()
+    if not user or not bcrypt.check_password_hash(user.password, unhashed_password):
+        return (
+            jsonify({"error": "unable to authorize based on provided information"}),
+            401,
+        )
+    else:
+        return jsonify({"email": user.email, "id": user.id}), 200
