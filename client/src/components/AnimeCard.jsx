@@ -19,7 +19,7 @@ const AnimeCard = ({ anime }) => {
             className="text-2xl font-bold hover:brightness-150"
             to={`/${anime.id}`}
           >
-            {anime.title.native}
+            {anime.title.english}
           </Link>
           <p className="h-48 overflow-scroll text-sm font-medium">
             {parse(anime.description)}

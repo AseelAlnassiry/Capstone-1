@@ -16,7 +16,7 @@ const SearchModal = () => {
 
   return (
     <div>
-      <dialog id="my_modal_2" className="modal">
+      <dialog id="search_modal" className="modal">
         <form
           method="dialog"
           className="modal-box mt-20 flex h-fit w-fit flex-col gap-2 self-start bg-transparent shadow-none"
@@ -36,7 +36,7 @@ const SearchModal = () => {
                     to={`/${anime.id}`}
                     onClick={() => {
                       setSearch("");
-                      window.my_modal_2.close();
+                      window.search_modal.close();
                     }}
                   >
                     <img
