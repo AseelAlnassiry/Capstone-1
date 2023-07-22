@@ -1,25 +1,26 @@
-import { useState } from 'react';
-import axiosInstance from '../axiosConfig';
-import Loading from './Loading';
+import { useState } from "react";
+import axiosInstance from "../axiosConfig";
+import Loading from "./Loading";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
-      const res = await axiosInstance.post('/auth', { email, password });
+      const res = await axiosInstance.post("/auth", { email, password });
       console.log(res.data);
       setLoading(false);
       setError(false);
       window.login_modal.close();
     } catch (error) {
       const info = error.toJSON();
-      if (info.status === 401) setError('Sorry, Your Email or Passowrd is Incorrect');
+      if (info.status === 401)
+        setError("Sorry, Your Email or Passowrd is Incorrect");
       setLoading(false);
     }
   };
@@ -30,7 +31,11 @@ const LoginForm = () => {
         <div className="m-auto w-full rounded-md bg-white p-6 shadow-md lg:max-w-lg">
           <div className="h-16">
             {loading && <Loading />}
-            {!loading && <h1 className="text-center text-3xl font-semibold text-accent">レノ国</h1>}
+            {!loading && (
+              <h1 className="text-center text-3xl font-semibold text-accent">
+                レノ国
+              </h1>
+            )}
             {error && (
               <span className="inline-block w-full text-center text-secondary">
                 Sorry your email or password is incorrect
@@ -41,7 +46,9 @@ const LoginForm = () => {
           <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="label">
-                <span className="label-text text-base font-semibold">Email</span>
+                <span className="label-text text-base font-semibold">
+                  Email
+                </span>
               </label>
               <input
                 type="text"
@@ -56,7 +63,9 @@ const LoginForm = () => {
             </div>
             <div>
               <label className="label">
-                <span className="label-text text-base font-semibold">Password</span>
+                <span className="label-text text-base font-semibold">
+                  Password
+                </span>
               </label>
               <input
                 type="password"
@@ -73,7 +82,8 @@ const LoginForm = () => {
             <div>
               <button
                 className="btn btn-primary disabled:btn-secondary"
-                disabled={loading ? true : false}>
+                disabled={loading ? true : false}
+              >
                 Login
               </button>
             </div>

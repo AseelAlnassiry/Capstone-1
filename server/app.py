@@ -4,11 +4,18 @@ from config import ApplicationConfig
 from models import User, Review, db
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity,
+    JWTManager,
+)
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.config.from_object(ApplicationConfig)
 app.app_context().push()
+jwt = JWTManager(app)
 
 bcrypt = Bcrypt(app)
 
@@ -37,15 +44,20 @@ def register_user():
 @app.post("/auth")
 @cross_origin(supports_credentials=True)
 def auth_user():
-    email = request.json["email"]
-    unhashed_password = request.json["password"]
-    if not email or not unhashed_password:
-        return jsonify({"message": "email or password missing"}), 409
-    user = User.query.filter_by(email=email).first()
-    if not user or not bcrypt.check_password_hash(user.password, unhashed_password):
+    req_email = request.json.get("email", None)
+    req_password = request.json.get("password", None)
+    user = User.query.filter_by(email=req_email).first()
+    if not user or not bcrypt.check_password_hash(user.password, req_password):
         return (
-            jsonify({"error": "unable to authorize based on provided information"}),
+            jsonify(error="unable to authorize based on provided request data"),
             401,
         )
     else:
-        return jsonify({"email": user.email, "id": user.id}), 200
+        jwt_token = create_access_token(identity=req_email)
+        user_data = {
+            "id": user.id,
+            "token": jwt_token,
+            "email": user.email,
+            "profile_image": user.profile_image,
+        }
+        return jsonify(user=user_data), 200

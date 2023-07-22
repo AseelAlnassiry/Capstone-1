@@ -9,3 +9,4 @@ class ApplicationConfig:
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = environ["DATABASE_URI"]
     SECRET_KEY = environ["SECRET_KEY"]
+    JWT_SECRET_KEY = environ["JWT_SECRET_KEY"]
