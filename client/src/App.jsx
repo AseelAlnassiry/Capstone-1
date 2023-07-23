@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Anime from "./pages/Anime";
+
 
 function App() {
   return (
@@ -9,6 +11,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/:id" element={<Anime />} />
         </Routes>
       </div>
     </BrowserRouter>

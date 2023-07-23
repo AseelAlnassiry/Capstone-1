@@ -5,25 +5,33 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
   const nav = useNavigate;
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
-      const res = await axiosInstance.post("/auth", { email, password });
-      login(res.data.user);
+      if (password !== confirmPassword)
+        throw new Error("Your password doesn't match!");
+      const res = await axiosInstance.post("/register", {
+        email,
+        displayName,
+        password,
+      });
+      login(res.data);
       setLoading(false);
       setError(false);
-      window.login_modal.close();
+      window.register_modal.close();
       nav("/");
     } catch (error) {
-      setError("Sorry, unable to log you in with those credentials");
+      setError(error.message);
       setLoading(false);
     }
   };
@@ -46,7 +54,7 @@ const LoginForm = () => {
             )}
           </div>
 
-          <form className="space-y-4" onSubmit={handleLogin}>
+          <form className="space-y-4" onSubmit={handleRegister}>
             <div>
               <label className="label">
                 <span className="label-text text-base font-semibold">
@@ -54,14 +62,35 @@ const LoginForm = () => {
                 </span>
               </label>
               <input
-                type="text"
+                type="email"
                 placeholder="Email Address"
                 className="input input-bordered input-primary w-full"
                 autoComplete="username"
+                required
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 value={email}
+              />
+            </div>
+            <div>
+              <label className="label">
+                <span className="label-text text-base font-semibold">
+                  Display Name
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Display Name"
+                className="input input-bordered input-primary w-full"
+                autoComplete="username"
+                required
+                maxLength={12}
+                minLength={6}
+                onChange={(e) => {
+                  setDisplayName(e.target.value);
+                }}
+                value={displayName}
               />
             </div>
             <div>
@@ -74,20 +103,37 @@ const LoginForm = () => {
                 type="password"
                 placeholder="Enter Password"
                 className="input input-bordered input-primary w-full"
-                autoComplete="current-password"
+                autoComplete="new-password"
+                required
+                minLength={10}
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
             </div>
-            {/* <a href="#" className="text-xs text-gray-600 hover:text-blue-600 hover:underline">
-              Forget Password?
-            </a> */}
+            <div>
+              <label className="label">
+                <span className="label-text text-base font-semibold">
+                  Confirm Password
+                </span>
+              </label>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                className="input input-bordered input-primary w-full"
+                autoComplete="confirm-password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={10}
+                value={confirmPassword}
+              />
+            </div>
+
             <div>
               <button
                 className="btn btn-primary disabled:btn-secondary"
                 disabled={loading ? true : false}
               >
-                Login
+                Register
               </button>
             </div>
           </form>
@@ -96,4 +142,4 @@ const LoginForm = () => {
     </div>
   );
 };
-export default LoginForm;
+export default RegisterForm;

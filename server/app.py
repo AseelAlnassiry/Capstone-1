@@ -25,20 +25,31 @@ db.init_app(app)
 @app.post("/register")
 @cross_origin(supports_credentials=True)
 def register_user():
-    email = request.json["email"]
-    unhashed_password = request.json["password"]
+    email = request.json.get("email", None)
+    unhashed_password = request.json.get("password", None)
+    display_name = request.json.get("displayName", None)
     if not email or not unhashed_password:
         return jsonify({"message": "email or password missing"}), 404
     user_exists = User.query.filter_by(email=email).first()
     if user_exists:
         return jsonify({"message": "email already exists in system"}), 409
-    new_user = User(
-        email=email,
-        password=bcrypt.generate_password_hash(unhashed_password).decode("utf8"),
-    )
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"email": new_user.email, "id": new_user.id})
+    else:
+        new_user = User(
+            email=email,
+            password=bcrypt.generate_password_hash(unhashed_password).decode("utf8"),
+            display_name=display_name,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        jwt_token = create_access_token(identity=email)
+        user_data = {
+            "id": new_user.id,
+            "token": jwt_token,
+            "email": new_user.email,
+            "displayName": new_user.display_name,
+            "profileImage": new_user.profile_image,
+        }
+        return jsonify(user=user_data), 200
 
 
 @app.post("/auth")
@@ -58,6 +69,18 @@ def auth_user():
             "id": user.id,
             "token": jwt_token,
             "email": user.email,
-            "profile_image": user.profile_image,
+            "displayName": user.display_name,
+            "profileImage": user.profile_image,
         }
         return jsonify(user=user_data), 200
+
+
+@app.put("/auth")
+@cross_origin(supports_credentials=True)
+@jwt_required
+def update_user():
+    req_email = request.json.get("email", None)
+    req_password = request.json.get("password", None)
+    req_display_name = request.json.get("displayName", None)
+    req_profile_image = request.json.get("profileImage", None)
+    req_token = request.json.get("token", None)

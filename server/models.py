@@ -15,6 +15,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.String(), primary_key=True, unique=True, default=get_uuid)
+    display_name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(345), unique=True)
     password = db.Column(db.Text, nullable=False)
     profile_image = db.Column(db.Text, default=environ["DEFAULT_IMAGE"])

@@ -1,9 +1,11 @@
-import parse from "html-react-parser";
 import { Link } from "react-router-dom";
+import parse from "html-react-parser";
 
-const AnimeCard = ({ anime }) => {
+const InfoCard = ({ anime 
+
+  }) => {
   return (
-    <article className="group relative rounded-lg shadow-lg md:h-96 md:w-72 z-10">
+    <article className="group relative h-96 rounded-lg shadow-lg md:h-96 md:w-72">
       {/* Picture */}
       <img
         className="object-fit h-full w-full rounded-lg transition-all duration-200 ease-in group-hover:brightness-[25%]"
@@ -36,4 +38,4 @@ const AnimeCard = ({ anime }) => {
     </article>
   );
 };
-export default AnimeCard;
+export default InfoCard;

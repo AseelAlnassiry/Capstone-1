@@ -9,7 +9,7 @@ import LoginModal from "./LoginModal";
 const Navbar = () => {
 
   return (
-    <div className="bg-accent-200 navbar shadow-lg">
+    <div className="bg-accent-200 navbar shadow-lg z-50">
       <NavbarStart />
       <NavbarCenter />
       <NavbarEnd />
