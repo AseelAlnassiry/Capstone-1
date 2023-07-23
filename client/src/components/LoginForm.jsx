@@ -1,26 +1,26 @@
 import { useState } from "react";
 import axiosInstance from "../axiosConfig";
 import Loading from "./Loading";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { login } = useContext(AuthContext);
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
       const res = await axiosInstance.post("/auth", { email, password });
-      console.log(res.data);
+      login(res.data);
       setLoading(false);
       setError(false);
       window.login_modal.close();
     } catch (error) {
-      const info = error.toJSON();
-      if (info.status === 401)
-        setError("Sorry, Your Email or Passowrd is Incorrect");
+      console.log(error);
       setLoading(false);
     }
   };

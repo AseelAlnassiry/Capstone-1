@@ -22,7 +22,7 @@ const AnimeCard = ({ anime }) => {
             {anime.title.english}
           </Link>
           <p className="h-48 overflow-scroll text-sm font-medium">
-            {parse(anime.description)}
+            {anime.description && parse(anime.description)}
           </p>
           <div className="mt-auto flex items-center justify-center gap-3">
             {anime.genres.slice(0, 3).map((genre) => (
