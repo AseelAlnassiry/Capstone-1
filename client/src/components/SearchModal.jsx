@@ -24,7 +24,7 @@ const SearchModal = () => {
           <input
             type="text"
             placeholder="What's to watch these days?"
-            className="input w-80 rounded-full bg-base-200 md:w-96"
+            className="input input-secondary w-80 rounded-full bg-base-200 md:w-96"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -50,7 +50,9 @@ const SearchModal = () => {
                         : truncate(anime.title.romaji)}
                     </span>
                     {anime.isAdult && (
-                      <span className="badge bg-accent">Adult</span>
+                      <span className="badge bg-accent text-neutral">
+                        Adult
+                      </span>
                     )}
                   </Link>
                 </li>

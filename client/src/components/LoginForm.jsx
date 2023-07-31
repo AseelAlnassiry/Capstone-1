@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
-  const nav = useNavigate;
+  const nav = useNavigate();
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
@@ -20,8 +20,10 @@ const LoginForm = () => {
       login(res.data.user);
       setLoading(false);
       setError(false);
-      window.login_modal.close();
+      setEmail("");
+      setPassword("");
       nav("/");
+      window.login_modal.close();
     } catch (error) {
       setError("Sorry, unable to log you in with those credentials");
       setLoading(false);
@@ -31,7 +33,7 @@ const LoginForm = () => {
   return (
     <div className="">
       <div className="relative flex flex-col justify-center overflow-hidden">
-        <div className="m-auto w-full rounded-md bg-white p-6 shadow-md lg:max-w-lg">
+        <div className="m-auto w-full rounded-md p-6 shadow-md lg:max-w-lg">
           <div className="h-16">
             {loading && <Loading />}
             {!loading && (
@@ -40,7 +42,7 @@ const LoginForm = () => {
               </h1>
             )}
             {error && (
-              <span className="inline-block w-full text-center text-secondary">
+              <span className="inline-block w-full text-center text-error">
                 {error}
               </span>
             )}
@@ -56,7 +58,7 @@ const LoginForm = () => {
               <input
                 type="text"
                 placeholder="Email Address"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="username"
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -73,7 +75,7 @@ const LoginForm = () => {
               <input
                 type="password"
                 placeholder="Enter Password"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -84,7 +86,7 @@ const LoginForm = () => {
             </a> */}
             <div>
               <button
-                className="btn btn-primary disabled:btn-secondary"
+                className="btn btn-secondary disabled:btn-accent"
                 disabled={loading ? true : false}
               >
                 Login

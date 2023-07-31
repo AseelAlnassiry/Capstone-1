@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
 from os import environ
 from datetime import datetime
+from sqlalchemy.ext.mutable import MutableList
 
 
 def get_uuid():
@@ -21,7 +22,7 @@ class User(db.Model):
     profile_image = db.Column(db.Text, default=environ["DEFAULT_IMAGE"])
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     reviews = db.relationship("Review", backref="users")
-    saved = db.Column(db.ARRAY(db.String()))
+    saved = db.Column(MutableList.as_mutable(db.PickleType), default=[])
 
 
 class Review(db.Model):

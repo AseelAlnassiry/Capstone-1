@@ -13,7 +13,7 @@ const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
-  const nav = useNavigate;
+  const nav = useNavigate();
   const handleRegister = async (e) => {
     try {
       e.preventDefault();
@@ -25,11 +25,15 @@ const RegisterForm = () => {
         displayName,
         password,
       });
-      login(res.data);
+      login(res.data.user);
       setLoading(false);
       setError(false);
-      window.register_modal.close();
+      setEmail("");
+      setDisplayName("");
+      setPassword("");
+      setConfirmPassword("");
       nav("/");
+      window.register_modal.close();
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -39,7 +43,7 @@ const RegisterForm = () => {
   return (
     <div className="">
       <div className="relative flex flex-col justify-center overflow-hidden">
-        <div className="m-auto w-full rounded-md bg-white p-6 shadow-md lg:max-w-lg">
+        <div className="m-auto w-full rounded-md p-6 shadow-md lg:max-w-lg">
           <div className="h-16">
             {loading && <Loading />}
             {!loading && (
@@ -64,7 +68,7 @@ const RegisterForm = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="username"
                 required
                 onChange={(e) => {
@@ -82,7 +86,7 @@ const RegisterForm = () => {
               <input
                 type="text"
                 placeholder="Display Name"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="username"
                 required
                 maxLength={12}
@@ -102,7 +106,7 @@ const RegisterForm = () => {
               <input
                 type="password"
                 placeholder="Enter Password"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="new-password"
                 required
                 minLength={10}
@@ -119,7 +123,7 @@ const RegisterForm = () => {
               <input
                 type="password"
                 placeholder="Confirm Password"
-                className="input input-bordered input-primary w-full"
+                className="input input-bordered input-secondary w-full"
                 autoComplete="confirm-password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -130,7 +134,7 @@ const RegisterForm = () => {
 
             <div>
               <button
-                className="btn btn-primary disabled:btn-secondary"
+                className="btn btn-success disabled:btn-accent"
                 disabled={loading ? true : false}
               >
                 Register

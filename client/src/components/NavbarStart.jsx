@@ -1,6 +1,12 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import {
+  FireIcon,
+  BookmarkIcon,
+  UserPlusIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 
 const NavbarStart = () => {
   const { user } = useContext(AuthContext);
@@ -18,20 +24,14 @@ const NavbarStart = () => {
             <>
               <li>
                 <Link className="flex items-center gap-1" to={"/"}>
-                  <img className="h-5 w-5" src="fire.svg" alt="" />
+                  <FireIcon className="h-5 w-5" />
                   <span className="text-base font-medium">Trending</span>
                 </Link>
               </li>
               <li>
-                <Link className="flex items-center gap-1" to={"/"}>
-                  <img className="h-5 w-5" src="bookmark.svg" alt="" />
+                <Link className="flex items-center gap-1" to={"/saved"}>
+                  <BookmarkIcon className="h-5 w-5" />
                   <span className="text-base font-medium">Saved</span>
-                </Link>
-              </li>
-              <li>
-                <Link className="flex items-center gap-1" to={"/"}>
-                  <img className="h-5 w-5" src="newspaper.svg" alt="" />
-                  <span className="text-base font-medium">My Reviews</span>
                 </Link>
               </li>
             </>
@@ -42,7 +42,7 @@ const NavbarStart = () => {
                   className="flex items-center gap-1"
                   onClick={() => window.register_modal.showModal()}
                 >
-                  <img className="h-5 w-5" src="add-user.svg" alt="" />
+                  <UserPlusIcon className="h-5 w-5" />
                   <span className="text-base font-medium">Register</span>
                 </button>
               </li>
@@ -51,7 +51,7 @@ const NavbarStart = () => {
                   className="flex items-center gap-1"
                   onClick={() => window.login_modal.showModal()}
                 >
-                  <img className="h-5 w-5" src="user.svg" alt="" />
+                  <UserIcon className="h-5 w-5" />
                   <span className="text-base font-medium">Login</span>
                 </button>
               </li>

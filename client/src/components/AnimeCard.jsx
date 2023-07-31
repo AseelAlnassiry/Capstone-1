@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const AnimeCard = ({ anime }) => {
   return (
-    <article className="group relative rounded-lg shadow-lg md:h-96 md:w-72 z-10">
+    <article className="group relative z-10 rounded-lg shadow-lg md:h-96 md:w-72">
       {/* Picture */}
       <img
-        className="object-fit h-full w-full rounded-lg transition-all duration-200 ease-in group-hover:brightness-[25%]"
+        className="h-full w-full rounded-lg object-cover transition-all duration-200 ease-in group-hover:brightness-[25%]"
         src={anime.coverImage.extraLarge}
         alt=""
       />
@@ -19,7 +19,7 @@ const AnimeCard = ({ anime }) => {
             className="text-2xl font-bold hover:brightness-150"
             to={`/${anime.id}`}
           >
-            {anime.title.english}
+            {anime.title.english ? anime.title.english : anime.title.romaji}
           </Link>
           <p className="h-48 overflow-scroll text-sm font-medium">
             {anime.description && parse(anime.description)}

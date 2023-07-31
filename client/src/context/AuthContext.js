@@ -4,19 +4,25 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  console.log(localStorage.getItem("userData"));
   const login = async (userData) => {
     await localStorage.setItem("user", JSON.stringify(userData));
-    console.log(localStorage.getItem("user"));
     setUser(userData);
+    console.log(userData)
   };
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
   };
 
+  const update = async (userData) => {
+    await localStorage.removeItem("user");
+    setUser(null);
+    await localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, update }}>
       {children}
     </AuthContext.Provider>
   );

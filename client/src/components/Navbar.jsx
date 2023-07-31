@@ -5,11 +5,9 @@ import NavbarEnd from "./NavbarEnd";
 import RegisterModal from "./RegisterModal";
 import LoginModal from "./LoginModal";
 
-
 const Navbar = () => {
-
   return (
-    <div className="bg-accent-200 navbar shadow-lg z-50">
+    <div className="navbar z-50 shadow-lg lg:px-6 ">
       <NavbarStart />
       <NavbarCenter />
       <NavbarEnd />

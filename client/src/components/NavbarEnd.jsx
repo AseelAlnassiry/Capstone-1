@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 const NavbarEnd = () => {
   const { logout, user } = useContext(AuthContext);
@@ -16,11 +17,11 @@ const NavbarEnd = () => {
         className="btn btn-circle btn-ghost"
         onClick={() => window.search_modal.showModal()}
       >
-        <img className="h-5 w-5" src="search.svg" alt="" />
+        <MagnifyingGlassIcon className="h-5 w-5"/>
       </button>
       {user && (
         <button className="btn btn-circle btn-ghost">
-          <div className="dropdown dropdown-end">
+          <div className="dropdown dropdown-end w-fit">
             <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
               <div className="w-8 rounded-full md:w-10">
                 <img
@@ -31,16 +32,13 @@ const NavbarEnd = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content rounded-box menu-sm z-50 mt-3 w-52 bg-base-100 p-2 shadow"
+              className="menu dropdown-content rounded-box menu-sm z-50 mt-3 w-80 bg-base-100 p-2 shadow"
             >
               <li>
-                <Link className="justify-between" to={"/profile"}>
+                <Link className="flex justify-between" to={"/profile"}>
                   {user.displayName}
-                  <span className="badge">0 Reviews</span>
+                  <span className="badge whitespace-nowrap">{user.reviews} Reviews</span>
                 </Link>
-              </li>
-              <li>
-                <Link to={"/settings"}>Settings</Link>
               </li>
               <li>
                 <span to={"/logout"} onClick={handleLogout}>

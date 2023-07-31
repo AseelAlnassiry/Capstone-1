@@ -14,17 +14,37 @@ const GET_ANIME = gql`
         extraLarge
         color
       }
+      bannerImage
       startDate {
         year
         month
         day
       }
+      isAdult
       description(asHtml: false)
       status
       genres
       averageScore
       meanScore
       popularity
+      episodes
+      duration
+      trending
+      staff(sort: RELEVANCE) {
+        edges {
+          role
+          node {
+            name {
+              first
+              middle
+              last
+              full
+              native
+              userPreferred
+            }
+          }
+        }
+      }
     }
   }
 `;
