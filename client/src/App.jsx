@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Yu from './pages/Yu'
 
 function App() {
+  console.log(process.env.REACT_APP_DATABASE_URI)
   return (
     <BrowserRouter>
       <div className="w-scren flex h-screen flex-col">
